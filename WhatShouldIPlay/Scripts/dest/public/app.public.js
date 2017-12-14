@@ -8,6 +8,51 @@
         .module(APP.NAME, ['ui.router', APP.NAME + '.routes']);
 })();
 
+//ajax\ajax.service.js
+(function () {
+    "use strict";
+    angular
+        .module("publicApp")
+        .factory("ajaxService", AjaxService);
+
+    AjaxService.$inject = ["$http", "$q"];
+
+    function AjaxService($http, $q) {
+        return {
+            get: _get,
+            post: _post,
+            put: _put,
+            delete: _delete
+        }
+        function _get(apiendpoint) {
+            return $http.get(apiendpoint)
+                .then(_success)
+                .catch(_error);
+        }
+        function _post(apiendpoint, data) {
+            return $http.post(apiendpoint, data)
+                .then(_success)
+                .catch(_error);
+        }
+        function _put(apiendpoint, data) {
+            return $http.put(apiendpoint, data)
+                .then(_success)
+                .catch(_error);
+        }
+        function _delete(apiendpoint) {
+            return $http.delete(apiendpoint)
+                .then(_success)
+                .catch(_error);
+        }
+        function _success(response) {
+            return response;
+        }
+        function _error(error) {
+            return $q.reject(error);
+        }
+    }
+})();
+
 //home\home.controller.js
 (function () {
     "use strict";
@@ -35,16 +80,41 @@
         .module("publicApp")
         .controller("loginController", LoginController);
 
-    LoginController.$inject = ["$scope"];
+    LoginController.$inject = ["$scope", "ajaxService"];
 
-    function LoginController($scope) {
+    function LoginController($scope, AjaxService) {
         var vm = this;
+        //Injections
         vm.$scope = $scope;
+        vm.AjaxService = AjaxService;
+        //Functions
+        vm.login = _login;
+        vm.success = _success;
+        vm.error = _error;
+        //Variables
         vm.hello = "Hello from login!";
+        vm.item;
 
         //THE FOLD
 
+        function _login() {
+            vm.item = {
+                email: "email@email.com",
+                password: "password"
+            };
 
+            vm.AjaxService.post("/api/login/", vm.item)
+                .then(vm.success)
+                .catch(vm.error);
+        }
+
+        function _success(res) {
+            console.log(res);
+        }
+
+        function _error(err) {
+            console.log(err);
+        }
     }
 })();
 

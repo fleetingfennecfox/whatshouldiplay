@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='watch' />
+/// <binding BeforeBuild='clean, public-js' ProjectOpened='watch' />
 /*
 This file is the main entry point for defining Gulp tasks and using Gulp plugins.
 Click here to learn more. https://go.microsoft.com/fwlink/?LinkId=518007
