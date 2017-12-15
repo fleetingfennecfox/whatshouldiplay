@@ -29,7 +29,6 @@ namespace WhatShouldIPlay.Controllers.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-
         }
     }
 }

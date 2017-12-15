@@ -33,6 +33,13 @@
                 templateUrl: '/app/public/modules/login/login.html',
                 title: 'Login',
                 controller: 'loginController as loginCtrl'
+            })
+            .state({
+                name: 'games',
+                url: '/games',
+                templateUrl: '/app/public/modules/gameProfile/gameProfile.html',
+                title: 'Games',
+                controller: 'gameProfileController as gPCtrl'
             });
     }
 })();

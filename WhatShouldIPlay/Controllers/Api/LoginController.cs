@@ -30,24 +30,6 @@ namespace WhatShouldIPlay.Controllers.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-
-        }
-
-        [HttpGet, AllowAnonymous]
-        public HttpResponseMessage SelectAllUsers()
-        {
-            List<User> usersList = new List<User>();
-            LoginService loginSvc = new LoginService();
-
-            try
-            {
-                usersList = loginSvc.SelectAll();
-                return Request.CreateResponse(HttpStatusCode.OK, usersList);
-            }
-            catch (System.Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
         }
 
         //// GET api/<controller>

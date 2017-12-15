@@ -1,0 +1,30 @@
+﻿{{gPCtrl.hello}}
+<br />
+
+Title
+<input ng-model="gPCtrl.item.title" />
+<br />
+Plaform(s)
+<input ng-model="gPCtrl.item.platforms"/>
+<br />
+Genre(s)
+<input ng-model="gPCtrl.item.genres"/>
+<br />
+Development Studio
+<input ng-model="gPCtrl.item.studio"/>
+<br />
+Director(s)
+<input ng-model="gPCtrl.item.directors"/>
+<br />
+<button ng-click="gPCtrl.addGame()">Add Game</button>
+<br />
+<button ng-click="gPCtrl.getAllGames()">Select All Games</button>
+<br />
+ID
+<input ng-model="gPCtrl.item.id" />
+<br />
+<button ng-click="gPCtrl.getGameById()">Get Game</button>
+<br />
+<button ng-click="gPCtrl.updateGame()">Update Game</button>
+<br />
+<button ng-click="gPCtrl.deleteGame()">Delete Game</button>
