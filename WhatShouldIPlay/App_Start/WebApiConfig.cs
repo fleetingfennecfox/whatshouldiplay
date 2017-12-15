@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace WhatShouldIPlay
@@ -19,8 +21,16 @@ namespace WhatShouldIPlay
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            
+
             //ADD JSON SERIALIZE FROM LPGALLERY
+            //We remove the xml serializer to make life easier. 
+            MediaTypeHeaderValue appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+
+            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+
+            //This is what transforms all the Json into camelcase for us
+            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
         }
     }

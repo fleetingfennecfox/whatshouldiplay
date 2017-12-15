@@ -1,10 +1,46 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" ng-app="publicApp">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>What Should I Play?</title>
+    <meta name="description" content="Find your next game.">
+
+    <!--Angular Material CSS-->
+    <link href="/Content/angular-material.min.css" rel="stylesheet" />
+    <!--Bootstrap CSS-->
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <!--CSS PlugIns-->
+    <link href="/Content/toastr.min.css" rel="stylesheet" />
+
+    <!--Primary Stylesheet-->
+    <link href="/Content/publicApp.css" rel="stylesheet" />
+
 </head>
 <body>
-    Hello from Index!!!!!!
+    <button ui-sref="home">Home</button>
+    <button ui-sref="login">Login</button>
+    <button ui-sref="register">Register</button>
+
+    <div ui-view></div>
+
+    <!--JS PlugIns-->
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="/Scripts/angular.min.js"></script>
+    <script src="/Scripts/angular-ui-router.min.js"></script>
+    <script src="/Scripts/dest/public/app.public.js"></script>
+    <script src="/Scripts/toastr.min.js"></script>
+
+    <!--Angular Material JS-->
+    <script src="/Scripts/angular-animate.min.js"></script>
+    <script src="/Scripts/angular-aria.min.js"></script>
+    <script src="/Scripts/angular-material.min.js"></script>
+
+    <!--Bootstrap JS-->
+    <script src="/Scripts/bootstrap.min.js"></script>
+
 </body>
 </html>
