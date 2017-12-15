@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -12,21 +10,20 @@ namespace WhatShouldIPlay.Controllers.Api
     [RoutePrefix("api/login")]
     public class LoginController : ApiController
     {
-        [HttpGet, Route("echo/{msg}")]
-        public HttpResponseMessage EchoBack(string msg)
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, msg);
-        }
-
         [HttpPost, AllowAnonymous]
-        public HttpResponseMessage Login(LoginUser model)
+        public HttpResponseMessage Login(User model)
         {
+            if(!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Email or Password are invalid");
+            }
+
             bool res = false;
-            LoginService loginService = new LoginService();
+            LoginService loginSvc = new LoginService();
 
             try
             {
-                res = loginService.Login(model);
+                res = loginSvc.Login(model);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (System.Exception ex)
@@ -34,6 +31,23 @@ namespace WhatShouldIPlay.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
 
+        }
+
+        [HttpGet, AllowAnonymous]
+        public HttpResponseMessage SelectAllUsers()
+        {
+            List<User> usersList = new List<User>();
+            LoginService loginSvc = new LoginService();
+
+            try
+            {
+                usersList = loginSvc.SelectAll();
+                return Request.CreateResponse(HttpStatusCode.OK, usersList);
+            }
+            catch (System.Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         //// GET api/<controller>

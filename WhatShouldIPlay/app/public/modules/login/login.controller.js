@@ -13,7 +13,7 @@
         vm.AjaxService = AjaxService;
         //Functions
         vm.login = _login;
-        vm.success = _success;
+        vm.loginSuccess = _loginSuccess;
         vm.error = _error;
         //Variables
         vm.hello = "Hello from login!";
@@ -22,17 +22,12 @@
         //THE FOLD
 
         function _login() {
-            vm.item = {
-                email: "email@email.com",
-                password: "password"
-            };
-
             vm.AjaxService.post("/api/login/", vm.item)
-                .then(vm.success)
+                .then(vm.loginSuccess)
                 .catch(vm.error);
         }
 
-        function _success(res) {
+        function _loginSuccess(res) {
             console.log(res);
         }
 

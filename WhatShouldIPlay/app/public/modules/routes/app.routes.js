@@ -21,11 +21,18 @@
                 controller: 'homeController as homeCtrl'
             })
             .state({
+                name: 'register',
+                url: '/register',
+                templateUrl: '/app/public/modules/register/register.html',
+                title: 'Register',
+                controller: 'registerController as regCtrl'
+            })
+            .state({
                 name: 'login',
                 url: '/login',
                 templateUrl: '/app/public/modules/login/login.html',
                 title: 'Login',
                 controller: 'loginController as loginCtrl'
-            });;
+            });
     }
 })();

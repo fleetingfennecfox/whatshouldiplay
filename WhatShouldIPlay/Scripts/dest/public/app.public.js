@@ -89,7 +89,7 @@
         vm.AjaxService = AjaxService;
         //Functions
         vm.login = _login;
-        vm.success = _success;
+        vm.loginSuccess = _loginSuccess;
         vm.error = _error;
         //Variables
         vm.hello = "Hello from login!";
@@ -98,17 +98,52 @@
         //THE FOLD
 
         function _login() {
-            vm.item = {
-                email: "email@email.com",
-                password: "password"
-            };
-
             vm.AjaxService.post("/api/login/", vm.item)
-                .then(vm.success)
+                .then(vm.loginSuccess)
                 .catch(vm.error);
         }
 
-        function _success(res) {
+        function _loginSuccess(res) {
+            console.log(res);
+        }
+
+        function _error(err) {
+            console.log(err);
+        }
+    }
+})();
+
+//register\register.controller.js
+(function () {
+    "use strict";
+    angular
+        .module("publicApp")
+        .controller("registerController", RegisterController);
+
+    RegisterController.$inject = ["$scope", "ajaxService"];
+
+    function RegisterController($scope, AjaxService) {
+        var vm = this;
+        //Injections
+        vm.$scope = $scope;
+        vm.AjaxService = AjaxService;
+        //Functions
+        vm.register = _register;
+        vm.registerSuccess = _registerSuccess;
+        vm.error = _error;
+        //Variables
+        vm.hello = "Hello from registration!";
+        vm.item;
+
+        //THE FOLD
+
+        function _register() {
+            vm.AjaxService.post("/api/register/", vm.item)
+                .then(vm.registerSuccess)
+                .catch(vm.error);
+        }
+
+        function _registerSuccess(res) {
             console.log(res);
         }
 
@@ -142,11 +177,18 @@
                 controller: 'homeController as homeCtrl'
             })
             .state({
+                name: 'register',
+                url: '/register',
+                templateUrl: '/app/public/modules/register/register.html',
+                title: 'Register',
+                controller: 'registerController as regCtrl'
+            })
+            .state({
                 name: 'login',
                 url: '/login',
                 templateUrl: '/app/public/modules/login/login.html',
                 title: 'Login',
                 controller: 'loginController as loginCtrl'
-            });;
+            });
     }
 })();
