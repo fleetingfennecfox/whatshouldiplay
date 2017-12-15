@@ -94,6 +94,7 @@
         function _addGameSuccess(res) {
             vm.hello = "Add Success! " + res.data;
             console.log(res);
+            vm.item = {};
         }
 
         function _getAllGames() {
@@ -105,6 +106,7 @@
         function _getAllGamesSuccess(res) {
             vm.hello = "Get All Success!";
             console.log(res);
+            vm.item = {};
         }
 
         function _getGameById() {
@@ -116,9 +118,12 @@
         function _getGameByIdSuccess(res) {
             vm.hello = "Get By Id Success! " + res.data.id;
             console.log(res);
+            vm.item = {};
         }
 
         function _updateGame() {
+            //Throws an error if somnething put into director before and taken out
+
             vm.AjaxService.put("/api/games/update/", vm.item)
                 .then(vm.updateGameSuccess)
                 .catch(vm.error);
@@ -127,6 +132,9 @@
         function _updateGameSuccess(res) {
             if (res.data) {
                 vm.hello = "Update Success!";
+                vm.item = {};
+            } else {
+                vm.hello = "Update Fail";
             }
             console.log(res);
         }
@@ -138,7 +146,12 @@
         }
 
         function _deleteGameSuccess(res) {
-            vm.hello = "Delete Success!";
+            if (res.data) {
+                vm.hello = "Delete Success!";
+                vm.item = {};
+            } else {
+                vm.hello = "Delete Fail";
+            }
             console.log(res);
         }
 
