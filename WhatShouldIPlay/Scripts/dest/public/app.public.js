@@ -53,6 +53,102 @@
     }
 })();
 
+//gameProfile\gameProfile.controller.js
+(function () {
+    "use strict";
+    angular
+        .module("publicApp")
+        .controller("gameProfileController", GameProfileController);
+
+    GameProfileController.$inject = ["$scope", "ajaxService"];
+
+    function GameProfileController($scope, AjaxService) {
+        var vm = this;
+        //Injections
+        vm.$scope = $scope;
+        vm.AjaxService = AjaxService;
+        //Functions
+        vm.addGame = _addGame;
+        vm.addGameSuccess = _addGameSuccess;
+        vm.getAllGames = _getAllGames;
+        vm.getAllGamesSuccess = _getAllGamesSuccess;
+        vm.getGameById = _getGameById;
+        vm.getGameByIdSuccess = _getGameByIdSuccess;
+        vm.updateGame = _updateGame;
+        vm.updateGameSuccess = _updateGameSuccess;
+        vm.deleteGame = _deleteGame;
+        vm.deleteGameSuccess = _deleteGameSuccess;
+        vm.error = _error;
+        //Variables
+        vm.hello = "Hello from a games profile!";
+        vm.item;
+
+        //THE FOLD
+
+        function _addGame() {
+            vm.AjaxService.post("/api/games/add", vm.item)
+                .then(vm.addGameSuccess)
+                .catch(vm.error);
+        }
+
+        function _addGameSuccess(res) {
+            vm.hello = "Add Success! " + res.data;
+            console.log(res);
+        }
+
+        function _getAllGames() {
+            vm.AjaxService.get("/api/games/getall")
+                .then(vm.getAllGamesSuccess)
+                .catch(vm.error);
+        }
+
+        function _getAllGamesSuccess(res) {
+            vm.hello = "Get All Success!";
+            console.log(res);
+        }
+
+        function _getGameById() {
+            vm.AjaxService.get("/api/games/get/" + vm.item.id)
+                .then(vm.getGameByIdSuccess)
+                .catch(vm.error);
+        }
+
+        function _getGameByIdSuccess(res) {
+            vm.hello = "Get By Id Success! " + res.data.id;
+            console.log(res);
+        }
+
+        function _updateGame() {
+            vm.AjaxService.put("/api/games/update/", vm.item)
+                .then(vm.updateGameSuccess)
+                .catch(vm.error);
+        }
+
+        function _updateGameSuccess(res) {
+            if (res.data) {
+                vm.hello = "Update Success!";
+            }
+            console.log(res);
+        }
+
+        function _deleteGame() {
+            vm.AjaxService.delete("/api/games/delete/" + vm.item.id)
+                .then(vm.deleteGameSuccess)
+                .catch(vm.error);
+        }
+
+        function _deleteGameSuccess(res) {
+            vm.hello = "Delete Success!";
+            console.log(res);
+        }
+
+        function _error(err) {
+            vm.hello = "Error!";
+            console.log(err);
+        }
+    }
+})();
+
 //home\home.controller.js
 (function () {
     "use strict";
@@ -189,6 +285,13 @@
                 templateUrl: '/app/public/modules/login/login.html',
                 title: 'Login',
                 controller: 'loginController as loginCtrl'
+            })
+            .state({
+                name: 'games',
+                url: '/games',
+                templateUrl: '/app/public/modules/gameProfile/gameProfile.html',
+                title: 'Games',
+                controller: 'gameProfileController as gPCtrl'
             });
     }
 })();

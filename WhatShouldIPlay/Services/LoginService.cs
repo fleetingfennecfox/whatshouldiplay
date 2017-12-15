@@ -48,32 +48,6 @@ namespace WhatShouldIPlay.Services
             return res;
         }
 
-        public List<User> SelectAll()
-        {
-            List<User> userList = new List<User>();
-
-            string sqlConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            using (SqlConnection conn = new SqlConnection(sqlConnectionString))
-            {
-                conn.Open();
-
-                using (SqlCommand cmd = new SqlCommand("dbo.Users_SelectAll", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-                    while (reader.Read())
-                    {
-                        User model = Mapper(reader);
-                        userList.Add(model);
-                    }
-                }
-
-                conn.Close();
-            }
-
-            return userList;
-        }
-
         private User Mapper(SqlDataReader reader)
         {
             User model = new User();
@@ -81,6 +55,7 @@ namespace WhatShouldIPlay.Services
 
             model.Id = reader.GetInt32(index++);
             model.Email = reader.GetString(index++);
+            model.BasicPass = reader.GetString(index++);
             model.EncryptedPass = reader.GetString(index++);
             model.Salt = reader.GetString(index++);
 
