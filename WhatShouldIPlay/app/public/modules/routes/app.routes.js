@@ -47,6 +47,13 @@
                 templateUrl: '/app/public/modules/webscraper/webscraper.html',
                 title: 'Webcraper',
                 controller: 'webScraperController as scrapeCtrl'
+            })
+            .state({
+                name: 'stackoverflow',
+                url: '/stackoverflow',
+                templateUrl: '/app/public/modules/stackoverflow/stackoverflow.html',
+                title: 'Stack Overflow',
+                controller: 'stackoverflowController as stackCtrl'
             });
     }
 })();
