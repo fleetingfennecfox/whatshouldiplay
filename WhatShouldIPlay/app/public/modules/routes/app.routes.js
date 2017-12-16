@@ -40,6 +40,13 @@
                 templateUrl: '/app/public/modules/gameProfile/gameProfile.html',
                 title: 'Games',
                 controller: 'gameProfileController as gPCtrl'
+            })
+            .state({
+                name: 'scraper',
+                url: '/scraper',
+                templateUrl: '/app/public/modules/webscraper/webscraper.html',
+                title: 'Webcraper',
+                controller: 'webScraperController as scrapeCtrl'
             });
     }
 })();
