@@ -1,0 +1,4 @@
+﻿{{scrapeCtrl.hello}}
+
+<button ng-click="scrapeCtrl.getPosts()">Get Posts</button>
+<p ng-repeat="post in scrapeCtrl.results">{{post.title}} at {{post.url}} <a ng-click="scrapeCtrl.savePost(post.title, post.url)">Save</a></p>
