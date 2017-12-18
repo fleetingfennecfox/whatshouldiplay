@@ -54,6 +54,13 @@
                 templateUrl: '/app/public/modules/stackoverflow/stackoverflow.html',
                 title: 'Stack Overflow',
                 controller: 'stackoverflowController as stackCtrl'
+            })
+            .state({
+                name: 'fileupload',
+                url: '/fileupload',
+                templateUrl: '/app/public/modules/fileupload/fileupload.html',
+                title: 'File Upload',
+                controller: 'fileUploadController as uploadCtrl'
             });
     }
 })();
