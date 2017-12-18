@@ -1,0 +1,21 @@
+﻿<h1>File Upload</h1>
+<div>
+    <div>
+        <input type="file" name="file" id="fileUploadInput" img-cropper-fileread image="uploadCtrl.cropper.sourceImage" />
+        <div ng-show="uploadCtrl.cropper.croppedImage">
+            <canvas width="300" height="150" id="canvas"
+                    image-cropper
+                    image="uploadCtrl.cropper.sourceImage"
+                    cropped-image="uploadCtrl.cropper.croppedImage"
+                    crop-width="200"
+                    crop-height="100"
+                    keep-aspect="true"
+                    touch-radius="30"
+                    crop-area-bounds="uploadCtrl.bounds"></canvas>
+        </div>
+        <div ng-show="uploadCtrl.cropper.croppedImage"><img ng-src="{{uploadCtrl.cropper.croppedImage}}" /></div>
+    </div>
+    <div>
+        <button ng-click="uploadCtrl.uploadFile()">Upload</button>
+    </div>
+</div>
