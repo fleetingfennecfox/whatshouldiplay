@@ -1,3 +1,10 @@
-﻿{{stackCtrl.hello}}
+﻿<h1>{{stackCtrl.hello}}</h1>
 
-<button ng-click="stackCtrl.getQuestions()">Get Questions</button>
+<md-button class="md-primary md-raised" ng-click="stackCtrl.getQuestions()">Get Questions</md-button>
+
+<div ng-repeat="post in stackCtrl.results">
+    <h4>{{post.score}} - {{post.title}}</h4>
+    {{post.body}}
+    <md-button class="md-accent md-raised" href="{{post.link}}">Link</md-button>
+    <p ng-repeat="answer in post.comments">{{answer.body}}</p>
+</div>

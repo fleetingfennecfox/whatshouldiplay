@@ -12,6 +12,7 @@
         vm.$scope = $scope;
         vm.AjaxService = AjaxService;
         //Functions
+        vm.$onInit = _onInit;
         vm.addGame = _addGame;
         vm.addGameSuccess = _addGameSuccess;
         vm.getAllGames = _getAllGames;
@@ -24,10 +25,16 @@
         vm.deleteGameSuccess = _deleteGameSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from a games profile!";
+        vm.hello = "Games Index";
         vm.item;
+        vm.gamesList;
+        vm.editing = false;
 
         //THE FOLD
+
+        function _onInit() {
+            _getAllGames();
+        }
 
         function _addGame() {
             vm.AjaxService.post("/api/games/add", vm.item)
@@ -36,9 +43,10 @@
         }
 
         function _addGameSuccess(res) {
-            vm.hello = "Add Success! " + res.data;
+            vm.hello = "Add Successful!";
             console.log(res);
             vm.item = {};
+            _getAllGames();
         }
 
         function _getAllGames() {
@@ -48,26 +56,28 @@
         }
 
         function _getAllGamesSuccess(res) {
-            vm.hello = "Get All Success!";
-            console.log(res);
+            vm.gamesList = res.data;
             vm.item = {};
         }
 
-        function _getGameById() {
-            vm.AjaxService.get("/api/games/get/" + vm.item.id)
+        function _getGameById(id) {
+            vm.AjaxService.get("/api/games/get/" + id)
                 .then(vm.getGameByIdSuccess)
                 .catch(vm.error);
         }
 
         function _getGameByIdSuccess(res) {
-            vm.hello = "Get By Id Success! " + res.data.id;
             console.log(res);
-            vm.item = {};
+            vm.item.title = res.data.title;
+            vm.item.platforms = res.data.platforms;
+            vm.item.genres = res.data.genres;
+            vm.item.studio = res.data.studio;
+            vm.item.directors = res.data.directors;
+            vm.item.id = res.data.id;
+            vm.editing = true;
         }
 
         function _updateGame() {
-            //Throws an error if somnething put into director before and taken out
-
             vm.AjaxService.put("/api/games/update/", vm.item)
                 .then(vm.updateGameSuccess)
                 .catch(vm.error);
@@ -75,16 +85,17 @@
 
         function _updateGameSuccess(res) {
             if (res.data) {
-                vm.hello = "Update Success!";
+                vm.hello = "Update Successful!";
+                vm.editing = false;
                 vm.item = {};
+                _getAllGames();
             } else {
-                vm.hello = "Update Fail";
+                vm.hello = "Update Failed";
             }
-            console.log(res);
         }
 
-        function _deleteGame() {
-            vm.AjaxService.delete("/api/games/delete/" + vm.item.id)
+        function _deleteGame(id) {
+            vm.AjaxService.delete("/api/games/delete/" + id)
                 .then(vm.deleteGameSuccess)
                 .catch(vm.error);
         }
@@ -93,10 +104,10 @@
             if (res.data) {
                 vm.hello = "Delete Success!";
                 vm.item = {};
+                _getAllGames();
             } else {
-                vm.hello = "Delete Fail";
+                vm.hello = "Delete Failed";
             }
-            console.log(res);
         }
 
         function _error(err) {

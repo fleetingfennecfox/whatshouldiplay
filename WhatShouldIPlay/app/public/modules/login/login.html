@@ -1,6 +1,12 @@
-﻿{{loginCtrl.hello}}
-Email
-<input ng-model="loginCtrl.item.email" />
-Pass
-<input ng-model="loginCtrl.item.basicPass"/>
-<button ng-click="loginCtrl.login()">Login</button>
+﻿<h1>{{loginCtrl.hello}}</h1>
+
+<md-input-container>
+    <label for="email">Email</label>
+    <input id="email" ng-model="loginCtrl.item.email" />
+</md-input-container>
+<md-input-container>
+    <label for="pass">Password</label>
+    <input id="pass" ng-model="loginCtrl.item.basicPass" />
+</md-input-container>
+<br />
+<md-button class="md-primary md-raised" ng-click="loginCtrl.login()">Login</md-button>

@@ -1,6 +1,11 @@
-﻿{{regCtrl.hello}}
-Email
-<input ng-model="regCtrl.item.email" />
-Pass
-<input ng-model="regCtrl.item.basicPass" />
-<button ng-click="regCtrl.register()">Register</button>
+﻿<h1>{{regCtrl.hello}}</h1>
+<md-input-container>
+    <label for="email">Email</label>
+    <input id="email" ng-model="regCtrl.item.email" />
+</md-input-container>
+<md-input-container>
+    <label for="pass">Password</label>
+    <input id="pass" type="password" ng-model="regCtrl.item.basicPass" />
+</md-input-container>
+<br />
+<md-button class="md-primary md-raised" ng-click="regCtrl.register()">Register</md-button>

@@ -16,7 +16,7 @@
         vm.registerSuccess = _registerSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from registration!";
+        vm.hello = "Registration Time!";
         vm.item;
 
         //THE FOLD

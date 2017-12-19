@@ -1,2 +1,48 @@
-﻿body {
+﻿/*Using Material Design for the color scheme.*/
+
+.navbar {
+    background-color: #FAFAFA;
+    width: 180px;
+    height: 100%;
+    position: fixed;
+}
+
+.navbuttons {
+    color: #212121;
+    padding: 8px 16px;
+    display: block;
+    text-align: left;
+}
+
+html {
+    background-color: #212121;
+}
+
+body {
+    background-color: #212121;
+}
+
+.partialView {
+    margin-left: 200px;
+    padding-top: 1%;
+}
+
+h1 {
+    color: #FFD54F;
+}
+
+h4 {
+    color: #FFD54F;
+}
+
+label {
+    color: #FFD54F !important;
+}
+
+input {
+    color: #FAFAFA !important;
+}
+
+p {
+    color: #FAFAFA;
 }

@@ -9,7 +9,7 @@
     function HomeController($scope) {
         var vm = this;
         vm.$scope = $scope;
-        vm.hello = "Hello from home!";
+        vm.hello = "Welcome Home!";
 
         //THE FOLD
 

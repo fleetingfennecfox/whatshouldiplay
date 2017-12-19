@@ -18,7 +18,7 @@
         vm.savePostSuccess = _savePostSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from a scraper!";
+        vm.hello = "Today's Gaming News";
         vm.item = {};
         vm.results;
 
@@ -31,7 +31,6 @@
         }
 
         function _getPostsSuccess(res) {
-            vm.hello = "Get Success";
             vm.results = res.data;
             console.log(res);
         }
@@ -46,7 +45,7 @@
         }
 
         function _savePostSuccess(res) {
-            vm.hello = "Add Success! " + res.data;
+            vm.hello = "Add Success!";
             console.log(res);
         }
 
