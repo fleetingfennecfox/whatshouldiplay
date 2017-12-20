@@ -5,7 +5,7 @@
     window.APP = window.APP || {}; 
     APP.NAME = "publicApp";
     angular
-        .module(APP.NAME, ['ui.router', APP.NAME + '.routes', 'angular-img-cropper']);
+        .module(APP.NAME, ['ui.router', APP.NAME + '.routes', 'ngMaterial', 'angular-img-cropper']);
 })();
 
 //ajax\ajax.service.js
@@ -124,6 +124,7 @@
         vm.$scope = $scope;
         vm.AjaxService = AjaxService;
         //Functions
+        vm.$onInit = _onInit;
         vm.addGame = _addGame;
         vm.addGameSuccess = _addGameSuccess;
         vm.getAllGames = _getAllGames;
@@ -134,12 +135,29 @@
         vm.updateGameSuccess = _updateGameSuccess;
         vm.deleteGame = _deleteGame;
         vm.deleteGameSuccess = _deleteGameSuccess;
+        vm.getAttributes = _getAttributes;
+        vm.getAttributesSuccess = _getAttributesSuccess;
         vm.error = _error;
+        vm.cancelUpdate = _cancelUpdate;
+        vm.confirmDeletion = _confirmDeletion;
+        vm.cancelDeletion = _cancelDeletion;
         //Variables
-        vm.hello = "Hello from a games profile!";
+        vm.hello = "Games Index";
         vm.item;
+        vm.gamesList;
+        vm.platforms;
+        vm.genres;
+        vm.studios;
+        vm.directors;
+        vm.editing = false;
+        vm.deleting = false;
 
         //THE FOLD
+
+        function _onInit() {
+            _getAttributes();
+            _getAllGames();
+        }
 
         function _addGame() {
             vm.AjaxService.post("/api/games/add", vm.item)
@@ -148,9 +166,10 @@
         }
 
         function _addGameSuccess(res) {
-            vm.hello = "Add Success! " + res.data;
+            vm.hello = "Add Successful!";
             console.log(res);
             vm.item = {};
+            _getAllGames();
         }
 
         function _getAllGames() {
@@ -160,26 +179,45 @@
         }
 
         function _getAllGamesSuccess(res) {
-            vm.hello = "Get All Success!";
-            console.log(res);
+            vm.gamesList = res.data;
             vm.item = {};
         }
 
-        function _getGameById() {
-            vm.AjaxService.get("/api/games/get/" + vm.item.id)
+        function _getGameById(id) {
+            vm.AjaxService.get("/api/games/get/" + id)
                 .then(vm.getGameByIdSuccess)
                 .catch(vm.error);
         }
 
+        //Right now using this to populate the fields, but use for details later as well
         function _getGameByIdSuccess(res) {
-            vm.hello = "Get By Id Success! " + res.data.id;
             console.log(res);
-            vm.item = {};
+            vm.item.title = res.data.title;
+
+            vm.item.platforms = [];
+            vm.item.genres = [];
+            vm.item.studio = [];
+            vm.item.directors = [];
+
+            for (var i = 0; i < res.data.platforms.length; i++) {
+                vm.item.platforms.push(res.data.platforms[i].id);
+            }
+
+            for (var i = 0; i < res.data.genres.length; i++) {
+                vm.item.genres.push(res.data.genres[i].id);
+            }
+
+            vm.item.studio = res.data.studios.id;
+
+            for (var i = 0; i < res.data.directors.length; i++) {
+                vm.item.directors.push(res.data.directors[i].id);
+            }
+
+            vm.item.id = res.data.id;
+            vm.editing = true;
         }
 
         function _updateGame() {
-            //Throws an error if somnething put into director before and taken out
-
             vm.AjaxService.put("/api/games/update/", vm.item)
                 .then(vm.updateGameSuccess)
                 .catch(vm.error);
@@ -187,12 +225,13 @@
 
         function _updateGameSuccess(res) {
             if (res.data) {
-                vm.hello = "Update Success!";
+                vm.hello = "Update Successful!";
+                vm.editing = false;
                 vm.item = {};
+                _getAllGames();
             } else {
-                vm.hello = "Update Fail";
+                vm.hello = "Update Failed";
             }
-            console.log(res);
         }
 
         function _deleteGame() {
@@ -204,16 +243,45 @@
         function _deleteGameSuccess(res) {
             if (res.data) {
                 vm.hello = "Delete Success!";
+                vm.deleting = false;
                 vm.item = {};
+                _getAllGames();
             } else {
-                vm.hello = "Delete Fail";
+                vm.hello = "Delete Failed";
             }
-            console.log(res);
+        }
+
+        function _getAttributes() {
+            vm.AjaxService.get("/api/games/attributes/")
+                .then(vm.getAttributesSuccess)
+                .catch(vm.error);
+        }
+
+        function _getAttributesSuccess(res) {
+            vm.platforms = res.data.platforms;
+            vm.genres = res.data.genres;
+            vm.studios = res.data.studios;
+            vm.directors = res.data.directors;
         }
 
         function _error(err) {
             vm.hello = "Error!";
             console.log(err);
+        }
+
+        function _cancelUpdate() {
+            vm.item = {};
+            vm.editing = false;
+        }
+
+        function _confirmDeletion(id) {
+            vm.deleting = true;
+            vm.item.id = id;
+        }
+
+        function _cancelDeletion() {
+            vm.deleting = false;
+            vm.item = {};
         }
     }
 })();
@@ -230,7 +298,7 @@
     function HomeController($scope) {
         var vm = this;
         vm.$scope = $scope;
-        vm.hello = "Hello from home!";
+        vm.hello = "Welcome Home!";
 
         //THE FOLD
 
@@ -257,7 +325,7 @@
         vm.loginSuccess = _loginSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from login!";
+        vm.hello = "Login";
         vm.item;
 
         //THE FOLD
@@ -297,7 +365,7 @@
         vm.registerSuccess = _registerSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from registration!";
+        vm.hello = "Registration Time!";
         vm.item;
 
         //THE FOLD
@@ -405,20 +473,22 @@
         vm.getQuestionsSuccess = _getQuestionsSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from stack overflow!";
+        vm.hello = "Popular Gaming Questions";
         vm.item;
+        vm.results;
 
         //THE FOLD
 
         function _getQuestions() {
             console.log("get");
-            vm.AjaxService.get("https://api.stackexchange.com/2.2/questions?order=desc&sort=activity&site=stackoverflow")
+            vm.AjaxService.get("https://api.stackexchange.com/2.2/posts?order=asc&sort=activity&site=gaming&filter=!froe)wRH8NTRQ3(BThufUSjeoJWBHZXzzhN&key=VR553ry0boP9*pIWGsWpVA((")
                 .then(vm.getQuestionsSuccess)
                 .catch(vm.error);
         }
 
         function _getQuestionsSuccess(res) {
             console.log(res);
+            vm.results = res.data.items;
         }
 
         function _error(err) {
@@ -448,7 +518,7 @@
         vm.savePostSuccess = _savePostSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from a scraper!";
+        vm.hello = "Today's Gaming News";
         vm.item = {};
         vm.results;
 
@@ -461,7 +531,6 @@
         }
 
         function _getPostsSuccess(res) {
-            vm.hello = "Get Success";
             vm.results = res.data;
             console.log(res);
         }
@@ -476,7 +545,7 @@
         }
 
         function _savePostSuccess(res) {
-            vm.hello = "Add Success! " + res.data;
+            vm.hello = "Add Success!";
             console.log(res);
         }
 

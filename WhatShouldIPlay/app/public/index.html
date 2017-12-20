@@ -21,15 +21,17 @@
 
 </head>
 <body>
-    <button ui-sref="home">Home</button>
-    <button ui-sref="register">Register</button>
-    <button ui-sref="login">Login</button>
-    <button ui-sref="games">Games</button>
-    <button ui-sref="scraper">Scraper</button>
-    <button ui-sref="stackoverflow">Stack Overflow</button>
-    <button ui-sref="fileupload">File Upload</button>
+    <nav class="navbar">
+        <md-button class="navbuttons" ui-sref="home">Home</md-button>
+        <md-button class="navbuttons" ui-sref="register">Register</md-button>
+        <md-button class="navbuttons" ui-sref="login">Login</md-button>
+        <md-button class="navbuttons" ui-sref="games">Games</md-button>
+        <md-button class="navbuttons" ui-sref="scraper">Scraper</md-button>
+        <md-button class="navbuttons" ui-sref="stackoverflow">Stack Overflow</md-button>
+        <md-button class="navbuttons" ui-sref="fileupload">File Upload</md-button>
+    </nav>
 
-    <div ui-view></div>
+    <div class="partialView" ui-view></div>
 
     <!--JS PlugIns-->
     <script src="/Scripts/jquery-1.10.2.min.js"></script>

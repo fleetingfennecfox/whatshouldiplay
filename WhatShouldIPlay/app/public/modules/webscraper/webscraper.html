@@ -1,4 +1,8 @@
-﻿{{scrapeCtrl.hello}}
+﻿<h1>{{scrapeCtrl.hello}}</h1>
 
-<button ng-click="scrapeCtrl.getPosts()">Get Posts</button>
-<p ng-repeat="post in scrapeCtrl.results">{{post.title}} at {{post.url}} <a ng-click="scrapeCtrl.savePost(post.title, post.url)">Save</a></p>
+<md-button class="md-accent md-raised" ng-click="scrapeCtrl.getPosts()">Get Posts</md-button>
+<div ng-repeat="post in scrapeCtrl.results">
+    <h4>{{post.title}}</h4>
+    <md-button class="md-accent md-raised" href="{{post.url}}">Link</md-button> 
+    <md-button class="md-primary md-raised" ng-click="scrapeCtrl.savePost(post.title, post.url)">Save</md-button>
+</div>
