@@ -24,7 +24,7 @@
 
         function _getQuestions() {
             console.log("get");
-            vm.AjaxService.get("https://api.stackexchange.com/2.2/posts?order=desc&sort=votes&site=gaming&filter=!froe)wRH8NTRQ3(BThufUSjeoJWBHZXzzhN&key=VR553ry0boP9*pIWGsWpVA((")
+            vm.AjaxService.get("https://api.stackexchange.com/2.2/posts?order=asc&sort=activity&site=gaming&filter=!froe)wRH8NTRQ3(BThufUSjeoJWBHZXzzhN&key=VR553ry0boP9*pIWGsWpVA((")
                 .then(vm.getQuestionsSuccess)
                 .catch(vm.error);
         }

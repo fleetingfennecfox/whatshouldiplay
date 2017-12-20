@@ -135,23 +135,35 @@
         vm.updateGameSuccess = _updateGameSuccess;
         vm.deleteGame = _deleteGame;
         vm.deleteGameSuccess = _deleteGameSuccess;
+        vm.getAttributes = _getAttributes;
+        vm.getAttributesSuccess = _getAttributesSuccess;
         vm.error = _error;
+        vm.cancelUpdate = _cancelUpdate;
+        vm.confirmDeletion = _confirmDeletion;
+        vm.cancelDeletion = _cancelDeletion;
         //Variables
         vm.hello = "Games Index";
         vm.item;
         vm.gamesList;
+        vm.platforms;
+        vm.genres;
+        vm.studios;
+        vm.directors;
         vm.editing = false;
+        vm.deleting = false;
 
         //THE FOLD
 
         function _onInit() {
+            _getAttributes();
             _getAllGames();
         }
 
         function _addGame() {
-            vm.AjaxService.post("/api/games/add", vm.item)
-                .then(vm.addGameSuccess)
-                .catch(vm.error);
+            //vm.AjaxService.post("/api/games/add", vm.item)
+            //    .then(vm.addGameSuccess)
+            //    .catch(vm.error);
+            console.log(vm.item);
         }
 
         function _addGameSuccess(res) {
@@ -206,8 +218,8 @@
             }
         }
 
-        function _deleteGame(id) {
-            vm.AjaxService.delete("/api/games/delete/" + id)
+        function _deleteGame() {
+            vm.AjaxService.delete("/api/games/delete/" + vm.item.id)
                 .then(vm.deleteGameSuccess)
                 .catch(vm.error);
         }
@@ -215,6 +227,7 @@
         function _deleteGameSuccess(res) {
             if (res.data) {
                 vm.hello = "Delete Success!";
+                vm.deleting = false;
                 vm.item = {};
                 _getAllGames();
             } else {
@@ -222,9 +235,37 @@
             }
         }
 
+        function _getAttributes() {
+            vm.AjaxService.get("/api/games/attributes/")
+                .then(vm.getAttributesSuccess)
+                .catch(vm.error);
+        }
+
+        function _getAttributesSuccess(res) {
+            vm.platforms = res.data.platforms;
+            vm.genres = res.data.genres;
+            vm.studios = res.data.studios;
+            vm.directors = res.data.directors;
+        }
+
         function _error(err) {
             vm.hello = "Error!";
             console.log(err);
+        }
+
+        function _cancelUpdate() {
+            vm.item = {};
+            vm.editing = false;
+        }
+
+        function _confirmDeletion(id) {
+            vm.deleting = true;
+            vm.item.id = id;
+        }
+
+        function _cancelDeletion() {
+            vm.deleting = false;
+            vm.item = {};
         }
     }
 })();
@@ -424,7 +465,7 @@
 
         function _getQuestions() {
             console.log("get");
-            vm.AjaxService.get("https://api.stackexchange.com/2.2/posts?order=desc&sort=votes&site=gaming&filter=!froe)wRH8NTRQ3(BThufUSjeoJWBHZXzzhN&key=VR553ry0boP9*pIWGsWpVA((")
+            vm.AjaxService.get("https://api.stackexchange.com/2.2/posts?order=asc&sort=activity&site=gaming&filter=!froe)wRH8NTRQ3(BThufUSjeoJWBHZXzzhN&key=VR553ry0boP9*pIWGsWpVA((")
                 .then(vm.getQuestionsSuccess)
                 .catch(vm.error);
         }

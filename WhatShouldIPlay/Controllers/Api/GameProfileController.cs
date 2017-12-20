@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WhatShouldIPlay.Models.Domain;
 using WhatShouldIPlay.Models.Request;
 using WhatShouldIPlay.Services;
 
@@ -11,7 +12,7 @@ namespace WhatShouldIPlay.Controllers.Api
     public class GameProfileController : ApiController
     {
         [HttpPost, AllowAnonymous, Route("add")]
-        public HttpResponseMessage AddGame(GameProfile model)
+        public HttpResponseMessage AddGame(GameProfileRequest model)
         {
             if (!ModelState.IsValid)
             {
@@ -52,7 +53,7 @@ namespace WhatShouldIPlay.Controllers.Api
         [HttpGet, AllowAnonymous, Route("get/{id:int}")]
         public HttpResponseMessage SelectGameById(int id)
         {
-            GameProfile res = new GameProfile();
+            GameProfileRequest res = new GameProfileRequest();
             GameProfileService gPSvc = new GameProfileService();
 
             try
@@ -67,7 +68,7 @@ namespace WhatShouldIPlay.Controllers.Api
         }
 
         [HttpPut, AllowAnonymous, Route("update")]
-        public HttpResponseMessage UpdateGame(GameProfile model)
+        public HttpResponseMessage UpdateGame(GameProfileRequest model)
         {
             if (!ModelState.IsValid)
             {
@@ -102,6 +103,23 @@ namespace WhatShouldIPlay.Controllers.Api
             catch (System.Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet, AllowAnonymous, Route("attributes")]
+        public HttpResponseMessage SelectAllAttributes()
+        {
+            GameAttributes attributes = new GameAttributes();
+            GameProfileService gPSvc = new GameProfileService();
+
+            try
+            {
+                attributes = gPSvc.SelectAllAttributes();
+                return Request.CreateResponse(HttpStatusCode.OK, attributes);
+            }
+            catch (System.Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

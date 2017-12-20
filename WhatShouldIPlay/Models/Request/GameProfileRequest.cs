@@ -2,7 +2,7 @@
 
 namespace WhatShouldIPlay.Models.Request
 {
-    public class GameProfile
+    public class GameProfileRequest
     {
         public int Id { get; set; }
         [Required, MaxLength(128)]

@@ -2,13 +2,14 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using WhatShouldIPlay.Models.Domain;
 using WhatShouldIPlay.Models.Request;
 
 namespace WhatShouldIPlay.Services
 {
     public class GameProfileService
     {
-        public int AddGame(GameProfile model)
+        public int AddGame(GameProfileRequest model)
         {
             int res = 0;
 
@@ -67,9 +68,9 @@ namespace WhatShouldIPlay.Services
             return gamesList;
         }
 
-        public GameProfile SelectById(int id)
+        public GameProfileRequest SelectById(int id)
         {
-            GameProfile game = new GameProfile();
+            GameProfileRequest game = new GameProfileRequest();
 
             string sqlConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(sqlConnectionString))
@@ -83,7 +84,10 @@ namespace WhatShouldIPlay.Services
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        game = Mapper(reader);
+                        int index = 0;
+
+                        game.Id = reader.GetInt32(index++);
+                        game.Title = reader.GetString(index++);
                     }
                 }
 
@@ -93,7 +97,7 @@ namespace WhatShouldIPlay.Services
             return game;
         }
 
-        public bool UpdateGame(GameProfile model)
+        public bool UpdateGame(GameProfileRequest model)
         {
             bool res = false;
 
@@ -153,10 +157,6 @@ namespace WhatShouldIPlay.Services
 
             model.Id = reader.GetInt32(index++);
             model.Title = reader.GetString(index++);
-            model.Platforms = reader.GetInt32(index++);
-            model.Genres = reader.GetInt32(index++);
-            model.Studio = reader.GetInt32(index++);
-            model.Directors = reader.GetInt32(index++);
 
             //For nullable fields
             //if (!reader.IsDBNull(index))
@@ -169,6 +169,70 @@ namespace WhatShouldIPlay.Services
             //}
 
             return model;
+        }
+
+        public GameAttributes SelectAllAttributes()
+        {
+            GameAttributes attributes = new GameAttributes();
+
+            string sqlConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(sqlConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand("dbo.Attributes_SelectAll", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                    while (reader.Read())
+                    {
+                        Platforms plats = new Platforms();
+                        int index = 0;
+
+                        plats.Id = reader.GetInt32(index++);
+                        plats.Platform = reader.GetString(index++);
+                        attributes.Platforms.Add(plats);
+                    }
+                    reader.NextResult();
+
+                    while (reader.Read())
+                    {
+                        Genres genres = new Genres();
+                        int index = 0;
+
+                        genres.Id = reader.GetInt32(index++);
+                        genres.Genre = reader.GetString(index++);
+                        attributes.Genres.Add(genres);
+                    }
+                    reader.NextResult();
+
+                    while (reader.Read())
+                    {
+                        Studios studios = new Studios();
+                        int index = 0;
+
+                        studios.Id = reader.GetInt32(index++);
+                        studios.Studio = reader.GetString(index++);
+                        attributes.Studios.Add(studios);
+                    }
+                    reader.NextResult();
+
+                    while (reader.Read())
+                    {
+                        Directors dirs = new Directors();
+                        int index = 0;
+
+                        dirs.Id = reader.GetInt32(index++);
+                        dirs.Director = reader.GetString(index++);
+                        attributes.Directors.Add(dirs);
+                    }
+                }
+
+                conn.Close();
+            }
+
+            return attributes;
         }
     }
 }

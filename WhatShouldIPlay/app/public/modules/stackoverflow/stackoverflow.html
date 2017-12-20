@@ -1,10 +1,9 @@
 ﻿<h1>{{stackCtrl.hello}}</h1>
 
-<md-button class="md-primary md-raised" ng-click="stackCtrl.getQuestions()">Get Questions</md-button>
+<md-button class="md-accent md-raised" ng-click="stackCtrl.getQuestions()">Get Questions</md-button>
 
 <div ng-repeat="post in stackCtrl.results">
-    <h4>{{post.score}} - {{post.title}}</h4>
-    {{post.body}}
+    <h4>{{post.score}} <span class="glyphicon glyphicon-thumbs-up"></span> - {{post.title}}</h4>
+    <p ng-repeat="answer in post.comments"><span class="glyphicon glyphicon-chevron-right"></span> {{answer.body}}</p>
     <md-button class="md-accent md-raised" href="{{post.link}}">Link</md-button>
-    <p ng-repeat="answer in post.comments">{{answer.body}}</p>
 </div>

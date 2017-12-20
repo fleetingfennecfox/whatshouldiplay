@@ -1,48 +1,92 @@
 ﻿/*Using Material Design for the color scheme.*/
 
+/*Overall navigation*/
 .navbar {
-    background-color: #FAFAFA;
+    background-color: #ffffff;
     width: 180px;
     height: 100%;
     position: fixed;
 }
 
+/*Each navigation button*/
 .navbuttons {
-    color: #212121;
+    color: #000000;
     padding: 8px 16px;
     display: block;
     text-align: left;
 }
 
+/*The page...even when it extends*/
 html {
-    background-color: #212121;
+    background-color: #1b1b1b;
 }
 
+/*Background shown in UI-view*/
 body {
-    background-color: #212121;
+    background-color: #1b1b1b;
 }
 
+/*What is shown in UI-View*/
 .partialView {
     margin-left: 200px;
     padding-top: 1%;
 }
 
+/*Titles*/
 h1 {
-    color: #FFD54F;
+    color: #ffffff;
 }
 
+/*Smaller, but still important text*/
 h4 {
-    color: #FFD54F;
+    color: #ffffff;
 }
 
+/*Input labels*/
 label {
-    color: #FFD54F !important;
+    color: #ffffff !important;
 }
 
+/*Underlines of input fields*/
+md-input-container:not(.md-input-invalid).md-input-focused .md-input,
+md-input-container:not(.md-input-focused) .md-input {
+    border-color: #ffffff;
+}
+
+/*Words typed in the input fields*/
 input {
-    color: #FAFAFA !important;
+    color: #ffffff !important;
 }
 
+/*Text*/
 p {
-    color: #FAFAFA;
+    color: #ffffff;
+}
+
+/*Edit Icon*/
+.glyphicon-pencil {
+    color: #3F51B5;
+}
+
+/*Delete Icon*/
+.glyphicon-trash {
+    color: #3F51B5;
+}
+
+/*Dropdown of choices when adding a game*/
+.checkboxDropdown {
+    padding: 5px;
+}
+
+/*Dropdown when adding a game*/
+md-select:not(.md-input-invalid):focus .md-select-value,
+md-select:not(:focus) .md-select-value,
+md-input-container.md-input-focused:not(.md-input-has-value) md-select .md-select-value.md-select-placeholder {
+    color: white;
+    border-color: white;
+}
+
+/*Input for title when adding game*/
+.titleInput {
+    margin-top: 42px;
 }
