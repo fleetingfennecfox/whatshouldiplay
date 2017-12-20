@@ -160,10 +160,9 @@
         }
 
         function _addGame() {
-            //vm.AjaxService.post("/api/games/add", vm.item)
-            //    .then(vm.addGameSuccess)
-            //    .catch(vm.error);
-            console.log(vm.item);
+            vm.AjaxService.post("/api/games/add", vm.item)
+                .then(vm.addGameSuccess)
+                .catch(vm.error);
         }
 
         function _addGameSuccess(res) {
@@ -190,13 +189,30 @@
                 .catch(vm.error);
         }
 
+        //Right now using this to populate the fields, but use for details later as well
         function _getGameByIdSuccess(res) {
             console.log(res);
             vm.item.title = res.data.title;
-            vm.item.platforms = res.data.platforms;
-            vm.item.genres = res.data.genres;
-            vm.item.studio = res.data.studio;
-            vm.item.directors = res.data.directors;
+
+            vm.item.platforms = [];
+            vm.item.genres = [];
+            vm.item.studio = [];
+            vm.item.directors = [];
+
+            for (var i = 0; i < res.data.platforms.length; i++) {
+                vm.item.platforms.push(res.data.platforms[i].id);
+            }
+
+            for (var i = 0; i < res.data.genres.length; i++) {
+                vm.item.genres.push(res.data.genres[i].id);
+            }
+
+            vm.item.studio = res.data.studios.id;
+
+            for (var i = 0; i < res.data.directors.length; i++) {
+                vm.item.directors.push(res.data.directors[i].id);
+            }
+
             vm.item.id = res.data.id;
             vm.editing = true;
         }

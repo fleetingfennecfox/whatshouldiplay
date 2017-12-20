@@ -53,7 +53,7 @@ namespace WhatShouldIPlay.Controllers.Api
         [HttpGet, AllowAnonymous, Route("get/{id:int}")]
         public HttpResponseMessage SelectGameById(int id)
         {
-            GameProfileRequest res = new GameProfileRequest();
+            GameProfile res = new GameProfile();
             GameProfileService gPSvc = new GameProfileService();
 
             try

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WhatShouldIPlay.Models.Domain
 {
@@ -7,5 +8,33 @@ namespace WhatShouldIPlay.Models.Domain
         public int Id { get; set; }
         [Required, MaxLength(128)]
         public string Title { get; set; }
+
+        private List<Platforms> _platforms = new List<Platforms>();
+        public List<Platforms> Platforms
+        {
+            get { return this._platforms; }
+            set { this._platforms = value; }
+        }
+
+        private List<Genres> _genres = new List<Genres>();
+        public List<Genres> Genres
+        {
+            get { return this._genres; }
+            set { this._genres = value; }
+        }
+
+        private Studios _studios = new Studios();
+        public Studios Studios
+        {
+            get { return this._studios; }
+            set { this._studios = value; }
+        }
+
+        private List<Directors> _directors = new List<Directors>();
+        public List<Directors> Directors
+        {
+            get { return this._directors; }
+            set { this._directors = value; }
+        }
     }
 }
