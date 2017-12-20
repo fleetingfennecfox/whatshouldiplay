@@ -4,12 +4,15 @@
         .module("publicApp")
         .controller("gameProfileController", GameProfileController);
 
-    GameProfileController.$inject = ["$scope", "ajaxService"];
+    GameProfileController.$inject = ["$scope", "ajaxService", "$element", "$timeout"];
 
-    function GameProfileController($scope, AjaxService) {
+    function GameProfileController($scope, AjaxService, $element, $timeout) {
         var vm = this;
         //Injections
         vm.$scope = $scope;
+        vm.$element = $element;
+        vm.$timeout = $timeout;
+        //Services
         vm.AjaxService = AjaxService;
         //Functions
         vm.$onInit = _onInit;
@@ -29,6 +32,7 @@
         vm.cancelUpdate = _cancelUpdate;
         vm.confirmDeletion = _confirmDeletion;
         vm.cancelDeletion = _cancelDeletion;
+        vm.clearSearch = _clearSearch;
         //Variables
         vm.hello = "Games Index";
         vm.item;
@@ -39,6 +43,7 @@
         vm.directors;
         vm.editing = false;
         vm.deleting = false;
+        vm.searchTerm;
 
         //THE FOLD
 
@@ -171,5 +176,13 @@
             vm.deleting = false;
             vm.item = {};
         }
+
+        function _clearSearch() {
+            vm.searchTerm = '';
+        }
+
+        vm.$element.find('input').on('keydown', function (ev) {
+            ev.stopPropagation();
+        });
     }
 })();

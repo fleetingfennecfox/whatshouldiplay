@@ -5,19 +5,23 @@
 </md-input-container>
 <md-input-container>
     <label for="platforms">Platform(s)</label>
-    <md-select ng-model="gPCtrl.item.platforms" id="platforms" name="platforms" multiple>
-        <md-select-header>Platforms</md-select-header>
-        <md-optgroup>
-            <md-option ng-value="{{platform.id}}" ng-repeat="platform in gPCtrl.platforms">{{platform.platform}}</md-option>
+    <md-select ng-model="gPCtrl.item.platforms" md-on-close="gPCtrl.clearSearch()" md-container-class="dropdownSelect" id="platforms" name="platforms" multiple>
+        <md-select-header class="selectHeader">
+            <input ng-model="gPCtrl.searchTerm" type="search" placeholder="Search for a platform" class="header-searchbox md-text" />
+        </md-select-header>
+        <md-optgroup label="platforms">
+            <md-option ng-value="{{platform.id}}" ng-repeat="platform in gPCtrl.platforms | filter:gPCtrl.searchTerm">{{platform.platform}}</md-option>
         </md-optgroup>
     </md-select>
 </md-input-container>
 <md-input-container>
     <label for="genres">Genre(s)</label>
-    <md-select ng-model="gPCtrl.item.genres" id="genres" name="genres" multiple>
-        <md-select-header>Genres</md-select-header>
-        <md-optgroup>
-            <md-option ng-value="{{genre.id}}" ng-repeat="genre in gPCtrl.genres">{{genre.genre}}</md-option>
+    <md-select ng-model="gPCtrl.item.genres" md-on-close="gPCtrl.clearSearch()" md-container-class="dropdownSelect" id="genres" name="genres" multiple>
+        <md-select-header class="selectHeader">
+            <input ng-model="gPCtrl.searchTerm" type="search" placeholder="Search for a genre" class="header-searchbox md-text" />
+        </md-select-header>
+        <md-optgroup label="genres">
+            <md-option ng-value="{{genre.id}}" ng-repeat="genre in gPCtrl.genres | filter:gPCtrl.searchTerm">{{genre.genre}}</md-option>
         </md-optgroup>
     </md-select>
 </md-input-container>
@@ -29,10 +33,12 @@
 </md-input-container>
 <md-input-container>
     <label for="directors">Director(s)</label>
-    <md-select ng-model="gPCtrl.item.directors" id="directors" name="directors" multiple>
-        <md-select-header>Directors</md-select-header>
-        <md-optgroup>
-            <md-option ng-value="{{director.id}}" ng-repeat="director in gPCtrl.directors">{{director.director}}</md-option>
+    <md-select ng-model="gPCtrl.item.directors" md-on-close="gPCtrl.clearSearch()" md-container-class="dropdownSelect" id="directors" name="directors" multiple>
+        <md-select-header class="selectHeader">
+            <input ng-model="gPCtrl.searchTerm" type="search" placeholder="Search for a director" class="header-searchbox md-text" />
+        </md-select-header>
+        <md-optgroup label="directors">
+            <md-option ng-value="{{director.id}}" ng-repeat="director in gPCtrl.directors | filter:gPCtrl.searchTerm">{{director.director}}</md-option>
         </md-optgroup>
     </md-select>
 </md-input-container>
