@@ -16,7 +16,7 @@
         vm.loginSuccess = _loginSuccess;
         vm.error = _error;
         //Variables
-        vm.hello = "Hello from login!";
+        vm.hello = "Login";
         vm.item;
 
         //THE FOLD

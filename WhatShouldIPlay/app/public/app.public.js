@@ -3,5 +3,5 @@
     window.APP = window.APP || {}; 
     APP.NAME = "publicApp";
     angular
-        .module(APP.NAME, ['ui.router', APP.NAME + '.routes', 'angular-img-cropper']);
+        .module(APP.NAME, ['ui.router', APP.NAME + '.routes', 'ngMaterial', 'angular-img-cropper']);
 })();

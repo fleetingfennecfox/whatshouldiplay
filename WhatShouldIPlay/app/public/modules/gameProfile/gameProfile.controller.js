@@ -12,6 +12,7 @@
         vm.$scope = $scope;
         vm.AjaxService = AjaxService;
         //Functions
+        vm.$onInit = _onInit;
         vm.addGame = _addGame;
         vm.addGameSuccess = _addGameSuccess;
         vm.getAllGames = _getAllGames;
@@ -22,12 +23,29 @@
         vm.updateGameSuccess = _updateGameSuccess;
         vm.deleteGame = _deleteGame;
         vm.deleteGameSuccess = _deleteGameSuccess;
+        vm.getAttributes = _getAttributes;
+        vm.getAttributesSuccess = _getAttributesSuccess;
         vm.error = _error;
+        vm.cancelUpdate = _cancelUpdate;
+        vm.confirmDeletion = _confirmDeletion;
+        vm.cancelDeletion = _cancelDeletion;
         //Variables
-        vm.hello = "Hello from a games profile!";
+        vm.hello = "Games Index";
         vm.item;
+        vm.gamesList;
+        vm.platforms;
+        vm.genres;
+        vm.studios;
+        vm.directors;
+        vm.editing = false;
+        vm.deleting = false;
 
         //THE FOLD
+
+        function _onInit() {
+            _getAttributes();
+            _getAllGames();
+        }
 
         function _addGame() {
             vm.AjaxService.post("/api/games/add", vm.item)
@@ -36,9 +54,10 @@
         }
 
         function _addGameSuccess(res) {
-            vm.hello = "Add Success! " + res.data;
+            vm.hello = "Add Successful!";
             console.log(res);
             vm.item = {};
+            _getAllGames();
         }
 
         function _getAllGames() {
@@ -48,26 +67,45 @@
         }
 
         function _getAllGamesSuccess(res) {
-            vm.hello = "Get All Success!";
-            console.log(res);
+            vm.gamesList = res.data;
             vm.item = {};
         }
 
-        function _getGameById() {
-            vm.AjaxService.get("/api/games/get/" + vm.item.id)
+        function _getGameById(id) {
+            vm.AjaxService.get("/api/games/get/" + id)
                 .then(vm.getGameByIdSuccess)
                 .catch(vm.error);
         }
 
+        //Right now using this to populate the fields, but use for details later as well
         function _getGameByIdSuccess(res) {
-            vm.hello = "Get By Id Success! " + res.data.id;
             console.log(res);
-            vm.item = {};
+            vm.item.title = res.data.title;
+
+            vm.item.platforms = [];
+            vm.item.genres = [];
+            vm.item.studio = [];
+            vm.item.directors = [];
+
+            for (var i = 0; i < res.data.platforms.length; i++) {
+                vm.item.platforms.push(res.data.platforms[i].id);
+            }
+
+            for (var i = 0; i < res.data.genres.length; i++) {
+                vm.item.genres.push(res.data.genres[i].id);
+            }
+
+            vm.item.studio = res.data.studios.id;
+
+            for (var i = 0; i < res.data.directors.length; i++) {
+                vm.item.directors.push(res.data.directors[i].id);
+            }
+
+            vm.item.id = res.data.id;
+            vm.editing = true;
         }
 
         function _updateGame() {
-            //Throws an error if somnething put into director before and taken out
-
             vm.AjaxService.put("/api/games/update/", vm.item)
                 .then(vm.updateGameSuccess)
                 .catch(vm.error);
@@ -75,12 +113,13 @@
 
         function _updateGameSuccess(res) {
             if (res.data) {
-                vm.hello = "Update Success!";
+                vm.hello = "Update Successful!";
+                vm.editing = false;
                 vm.item = {};
+                _getAllGames();
             } else {
-                vm.hello = "Update Fail";
+                vm.hello = "Update Failed";
             }
-            console.log(res);
         }
 
         function _deleteGame() {
@@ -92,16 +131,45 @@
         function _deleteGameSuccess(res) {
             if (res.data) {
                 vm.hello = "Delete Success!";
+                vm.deleting = false;
                 vm.item = {};
+                _getAllGames();
             } else {
-                vm.hello = "Delete Fail";
+                vm.hello = "Delete Failed";
             }
-            console.log(res);
+        }
+
+        function _getAttributes() {
+            vm.AjaxService.get("/api/games/attributes/")
+                .then(vm.getAttributesSuccess)
+                .catch(vm.error);
+        }
+
+        function _getAttributesSuccess(res) {
+            vm.platforms = res.data.platforms;
+            vm.genres = res.data.genres;
+            vm.studios = res.data.studios;
+            vm.directors = res.data.directors;
         }
 
         function _error(err) {
             vm.hello = "Error!";
             console.log(err);
+        }
+
+        function _cancelUpdate() {
+            vm.item = {};
+            vm.editing = false;
+        }
+
+        function _confirmDeletion(id) {
+            vm.deleting = true;
+            vm.item.id = id;
+        }
+
+        function _cancelDeletion() {
+            vm.deleting = false;
+            vm.item = {};
         }
     }
 })();

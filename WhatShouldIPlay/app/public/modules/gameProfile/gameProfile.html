@@ -1,30 +1,48 @@
-﻿{{gPCtrl.hello}}
+﻿<h1>{{gPCtrl.hello}}</h1>
+<md-input-container class="titleInput">
+    <label for="title">Title</label>
+    <input id="title" ng-model="gPCtrl.item.title" />
+</md-input-container>
+<md-input-container>
+    <label for="platforms">Platform(s)</label>
+    <md-select ng-model="gPCtrl.item.platforms" id="platforms" name="platforms" multiple>
+        <md-select-header>Platforms</md-select-header>
+        <md-optgroup>
+            <md-option ng-value="{{platform.id}}" ng-repeat="platform in gPCtrl.platforms">{{platform.platform}}</md-option>
+        </md-optgroup>
+    </md-select>
+</md-input-container>
+<md-input-container>
+    <label for="genres">Genre(s)</label>
+    <md-select ng-model="gPCtrl.item.genres" id="genres" name="genres" multiple>
+        <md-select-header>Genres</md-select-header>
+        <md-optgroup>
+            <md-option ng-value="{{genre.id}}" ng-repeat="genre in gPCtrl.genres">{{genre.genre}}</md-option>
+        </md-optgroup>
+    </md-select>
+</md-input-container>
+<md-input-container>
+    <label for="studio">Development Studio</label>
+    <md-select ng-model="gPCtrl.item.studio" id="studio" name="studio">
+        <md-option ng-value="{{studio.id}}" ng-repeat="studio in gPCtrl.studios">{{studio.studio}}</md-option>
+    </md-select>
+</md-input-container>
+<md-input-container>
+    <label for="directors">Director(s)</label>
+    <md-select ng-model="gPCtrl.item.directors" id="directors" name="directors" multiple>
+        <md-select-header>Directors</md-select-header>
+        <md-optgroup>
+            <md-option ng-value="{{director.id}}" ng-repeat="director in gPCtrl.directors">{{director.director}}</md-option>
+        </md-optgroup>
+    </md-select>
+</md-input-container>
 <br />
-
-Title
-<input ng-model="gPCtrl.item.title" />
-<br />
-Plaform(s)
-<input ng-model="gPCtrl.item.platforms"/>
-<br />
-Genre(s)
-<input ng-model="gPCtrl.item.genres"/>
-<br />
-Development Studio
-<input ng-model="gPCtrl.item.studio"/>
-<br />
-Director(s)
-<input ng-model="gPCtrl.item.directors"/>
-<br />
-<button ng-click="gPCtrl.addGame()">Add Game</button>
-<br />
-<button ng-click="gPCtrl.getAllGames()">Select All Games</button>
-<br />
-ID
-<input ng-model="gPCtrl.item.id" />
-<br />
-<button ng-click="gPCtrl.getGameById()">Get Game</button>
-<br />
-<button ng-click="gPCtrl.updateGame()">Update Game</button>
-<br />
-<button ng-click="gPCtrl.deleteGame()">Delete Game</button>
+<md-button class="md-accent md-raised" ng-click="gPCtrl.addGame()">Add Game</md-button>
+<md-button ng-show="gPCtrl.editing" class="md-primary md-raised" ng-click="gPCtrl.updateGame()">Update Game</md-button>
+<md-button ng-show="gPCtrl.editing" class="md-primary md-raised" ng-click="gPCtrl.cancelUpdate()">Cancel Update</md-button>
+<p ng-show="gPCtrl.deleting">Are you sure you'd like to delete this entry?</p>
+<md-button ng-show="gPCtrl.deleting" class="md-accent md-raised" ng-click="gPCtrl.deleteGame()">Delete</md-button>
+<md-button ng-show="gPCtrl.deleting" class="md-primary md-raised" ng-click="gPCtrl.cancelDeletion()">Cancel</md-button>
+<div ng-repeat="game in gPCtrl.gamesList | orderBy : 'title'">
+    <h4>{{game.title}}</h4> <a ng-click="gPCtrl.getGameById(game.id)" class="glyphicon glyphicon-pencil"></a> <a ng-click="gPCtrl.confirmDeletion(game.id)" class="glyphicon glyphicon-trash"></a>
+</div>
