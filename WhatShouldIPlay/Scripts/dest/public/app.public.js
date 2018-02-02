@@ -116,14 +116,13 @@
         .module("publicApp")
         .controller("gameProfileController", GameProfileController);
 
-    GameProfileController.$inject = ["$scope", "ajaxService", "$element", "$timeout"];
+    GameProfileController.$inject = ["$scope", "ajaxService", "$element"];
 
-    function GameProfileController($scope, AjaxService, $element, $timeout) {
+    function GameProfileController($scope, AjaxService, $element) {
         var vm = this;
         //Injections
         vm.$scope = $scope;
         vm.$element = $element;
-        vm.$timeout = $timeout;
         //Services
         vm.AjaxService = AjaxService;
         //Functions
